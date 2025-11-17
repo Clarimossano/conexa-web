@@ -5,7 +5,8 @@ import {
   logout as logoutService,
   getProfile,
   updateProfile as updateProfileService,
-  deleteAccount as deleteAccountService
+  deleteAccount as deleteAccountService,
+  changePassword as changePasswordService
 } from "../services/auth.service"
 
 export const AuthContext = createContext()
@@ -88,6 +89,18 @@ export const AuthProvider = ({ children }) => {
     }
   }
 
+  const changePassword = async (passwords) => {
+    try {
+      await changePasswordService(passwords)
+      // La API 2.0 requiere re-login tras cambio de pass
+      await signout() 
+      return true
+    } catch (error) {
+      console.error("Error changing password:", error.response?.data)
+      throw error
+    }
+  }
+
   const deleteAccount = async () => {
     try {
       await deleteAccountService()
@@ -109,6 +122,7 @@ export const AuthProvider = ({ children }) => {
         signin,
         signout,
         updateProfile,
+        changePassword,
         deleteAccount
       }}
     >

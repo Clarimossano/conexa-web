@@ -50,3 +50,11 @@ export const deleteAccount = () => {
 export const getProfile = () => {
   return apiClient.get("/auth/profile")
 }
+
+/**
+ * Change user password.
+ * @param {Object} passwords - { currentPassword, newPassword }
+ */
+export const changePassword = (passwords) => {
+  return apiClient.patch("/auth/password", passwords)
+}

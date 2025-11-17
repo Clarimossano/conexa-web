@@ -33,3 +33,26 @@ export const getRequests = async () => {
 export const createRequest = async (requestData) => {
   return apiClient.post("/mercado/requests", requestData)
 }
+
+/**
+ * Obtiene las publicaciones propias (Ofertas o Solicitudes)
+ * El BE maneja la lógica de rol internamente:
+ * - Transportista: Retorna solo Offers.
+ * - Empresa: Retorna solo Requests.
+ * - Operador Dual: Retorna ambos.
+ */
+export const getMyPublications = async () => {
+  // Asumimos que la API retorna un array o un objeto { offers: [], requests: [] }
+  const response = await apiClient.get("/publications/mine")
+  return response.data
+}
+
+export const getMyOffers = async () => {
+  const response = await apiClient.get("/offers/mine")
+  return response.data
+}
+
+export const getMyRequests = async () => {
+  const response = await apiClient.get("/requests/mine")
+  return response.data
+}
