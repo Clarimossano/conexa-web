@@ -3,8 +3,8 @@ import { getOffers, getRequests } from "../services/market.service"
 import { useAuth } from "../context/AuthContext"
 
 /**
- * Hook to manage state and data loading for the Logistics Market
- * Loads Offers (for Companies) or Requests (for Carriers) based on role
+ * Hook para gestionar el estado y la carga de datos del Mercado Logístico
+ * Carga Ofertas, Solicitudes, o AMBOS (para el rol Dual)
  * @returns {Object} { data, loading, error, refetchData }
  */
 export const useMarket = () => {
@@ -21,14 +21,30 @@ export const useMarket = () => {
     setError(null)
 
     try {
-      let result
+      let result = []
+      
+      // 1. Lógica para el rol TRANSPORTISTA (busca pedidos/requests)
       if (user.role === "transportista") {
         result = await getRequests()
-      } else if (user.role === "empresa") {
+      } 
+      // 2. Lógica para el rol EMPRESA (busca ofertas/offers)
+      else if (user.role === "empresa") {
         result = await getOffers()
       }
+      // 3. NUEVA LÓGICA para el rol OPERADOR DUAL
+      else if (user.role === "operador_dual") {
+        // Ejecución paralela de AMBAS llamadas
+        const [offersResult, requestsResult] = await Promise.all([
+            getOffers(), 
+            getRequests()
+        ])
+        
+        // Combinamos las listas en un único array para el dashboard
+        // Usamos .data ya que las funciones del servicio lo requieren
+        result = [...(offersResult.data || []), ...(requestsResult.data || [])]
+      }
 
-      setData(result?.data || [])
+      setData(result || [])
     } catch (err) {
       console.error("Error fetching market data:", err)
       setError("Could not load market data")
