@@ -5,7 +5,7 @@ import apiClient from "./apiClient"
  * @returns {Promise<Array>} An array of offer objects
  */
 export const getOffers = async () => {
-  return apiClient.get("/mercado/offers")
+  return apiClient.get("/offers")
 }
 
 /**
@@ -14,7 +14,7 @@ export const getOffers = async () => {
  * @returns {Promise<Object>} The newly created offer
  */
 export const createOffer = async (offerData) => {
-  return apiClient.post("/mercado/offers", offerData)
+  return apiClient.post("/offers", offerData)
 }
 
 /**
@@ -22,7 +22,7 @@ export const createOffer = async (offerData) => {
  * @returns {Promise<Array>} An array of request objects
  */
 export const getRequests = async () => {
-  return apiClient.get("/mercado/requests")
+  return apiClient.get("/requests")
 }
 
 /**
@@ -31,7 +31,7 @@ export const getRequests = async () => {
  * @returns {Promise<Object>} The newly created request
  */
 export const createRequest = async (requestData) => {
-  return apiClient.post("/mercado/requests", requestData)
+  return apiClient.post("/requests", requestData)
 }
 
 /**

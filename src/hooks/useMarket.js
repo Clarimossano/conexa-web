@@ -15,7 +15,10 @@ export const useMarket = () => {
   const [error, setError] = useState(null)
 
   const fetchData = async () => {
-    if (!user) return
+    if (!user) {
+      setLoading(false)
+      return
+    }
 
     setLoading(true)
     setError(null)
@@ -23,25 +26,24 @@ export const useMarket = () => {
     try {
       let result = []
       
-      // 1. Lógica para el rol TRANSPORTISTA (busca pedidos/requests)
-      if (user.role === "transportista") {
-        result = await getRequests()
+      if (user.rol === "transportista") {
+        const response = await getRequests()
+        result = response.data.requests || [] 
       } 
-      // 2. Lógica para el rol EMPRESA (busca ofertas/offers)
-      else if (user.role === "empresa") {
-        result = await getOffers()
+      else if (user.rol === "empresa") {
+        const response = await getOffers()
+        result = response.data.offers || []
       }
-      // 3. NUEVA LÓGICA para el rol OPERADOR DUAL
-      else if (user.role === "operador_dual") {
-        // Ejecución paralela de AMBAS llamadas
-        const [offersResult, requestsResult] = await Promise.all([
-            getOffers(), 
-            getRequests()
+      else if (user.rol === "operador_dual") {
+        const [offersResponse, requestsResponse] = await Promise.all([
+          getOffers(), 
+          getRequests()
         ])
         
-        // Combinamos las listas en un único array para el dashboard
-        // Usamos .data ya que las funciones del servicio lo requieren
-        result = [...(offersResult.data || []), ...(requestsResult.data || [])]
+        const offers = offersResponse.data.offers || []
+        const requests = requestsResponse.data.requests || []
+        
+        result = [...offers, ...requests]
       }
 
       setData(result || [])
@@ -54,10 +56,13 @@ export const useMarket = () => {
   }
 
   useEffect(() => {
+    // Aseguramos que solo hacemos fetch si el usuario está definido (no null)
     if (user) {
       fetchData()
+    } else {
+      setLoading(false) // Si el user es null, hemos terminado de cargar sin datos
     }
-  }, [user])
+  }, [user]) // El hook se re-ejecuta cada vez que el objeto 'user' cambia
 
   return {
     data,
