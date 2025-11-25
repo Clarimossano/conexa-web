@@ -50,7 +50,7 @@ function LoginPage() {
     setLoginError(null)
     try {
       await signin(data)
-      navigate("/mercado")
+      navigate("/profile")
     } catch (error) {
       console.error("Error in login:", error)
       const errorMsg = error.response?.data?.message || "Email o contraseña incorrectos."

@@ -24,7 +24,7 @@ function HomePage() {
             </p>
             <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Link
-                to="/mercado"
+                to="/marketplace"
                 className="flex h-12 min-w-[84px] w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-amber-500 px-6 text-base font-bold leading-normal tracking-wide text-black transition-transform hover:scale-105 sm:w-auto"
               >
                 <span className="truncate">Buscar Carga Ahora</span>

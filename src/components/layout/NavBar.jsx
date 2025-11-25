@@ -80,32 +80,11 @@ function Navbar() {
             </Link>
 
             <div className="hidden items-center gap-8 md:flex">
-              <nav className="flex items-center gap-8">
-                <Link
-                  to="/mercado"
-                  className="text-sm font-medium text-neutral-600 dark:text-white/80 transition-colors hover:text-neutral-900 dark:hover:text-white"
-                >
-                  Mercado Logístico
-                </Link>
-                <Link
-                  to="/community"
-                  className="text-sm font-medium text-neutral-600 dark:text-white/80 transition-colors hover:text-neutral-900 dark:hover:text-white"
-                >
-                  Portal Comunitario
-                </Link>
-                <Link
-                  to="/about"
-                  className="text-sm font-medium text-neutral-600 dark:text-white/80 transition-colors hover:text-neutral-900 dark:hover:text-white"
-                >
-                  Nosotros
-                </Link>
-              </nav>
-
               {!isAuthenticated ? (
                 <div className="flex items-center gap-4">
                   <Link
                     to="/login"
-                    className="text-sm font-medium text-neutral-600 dark:text-white/80 transition-colors hover:text-neutral-900 dark:hover:text-white"
+                    className="text-sm font-medium text-neutral-600 dark:text-white/80 transition-colors hover:text-neutral-900 dark:hover:text-amber-400"
                   >
                     Iniciar Sesión
                   </Link>

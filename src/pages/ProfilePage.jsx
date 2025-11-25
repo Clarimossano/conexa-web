@@ -54,14 +54,6 @@ function ProfilePage() {
           ))}
         </div>
 
-        {/* 3. BOTÓN EXTENDIDO: MIS PUBLICACIONES */}
-        <Link to="/mercado/my-publications" className="w-full hover:scale-105 transition-all">
-            <button className="flex w-full items-center justify-center gap-3 p-4 bg-primary/10 hover:bg-primary/20 dark:bg-[#191919] dark:hover:bg-primary/30 border border-gray-200 dark:border-white/10 rounded-xl transition-all group">
-                <List className="text-primary w-6 h-6 group-hover:scale-110 transition-transform" />
-                <span className="text-primary font-bold text-lg">Ir a Mis Publicaciones</span>
-            </button>
-        </Link>
-
         {/* 4. SECCIONES DE DATOS (MODULARES) */}
         
         {/* Account Info (Solo lectura + Email) */}

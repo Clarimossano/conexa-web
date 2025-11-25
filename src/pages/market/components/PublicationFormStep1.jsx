@@ -57,7 +57,7 @@ const PublicationFormStep1 = ({ initialData, onSubmit, allowedType }) => {
         {/* HEADER */}
         <div className="mb-8 gap-3 flex flex-col">
           <Link
-            to="/mercado"
+            to="/marketplace"
             className="inline-flex items-center text-gray-500 dark:text-[#888888] hover:text-primary transition-colors mb-2 w-fit"
           >
             <ArrowLeft size={20} className="mr-2" /> Volver
@@ -276,7 +276,7 @@ const PublicationFormStep1 = ({ initialData, onSubmit, allowedType }) => {
 
           {/* FOOTER ACTIONS */}
           <div className="flex items-center justify-end gap-4 py-4 mt-4 border-t border-gray-200 dark:border-[#333333]">
-            <Link to="/mercado">
+            <Link to="/marketplace">
               <button
                 type="button"
                 className="flex items-center justify-center font-bold h-12 px-6 rounded-lg transition-colors duration-200 text-gray-700 bg-transparent border border-gray-300 hover:bg-gray-100 dark:text-[#E0E0E0] dark:border-[#333333] dark:hover:bg-[#191919]"
