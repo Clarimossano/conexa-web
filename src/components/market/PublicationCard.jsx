@@ -166,19 +166,19 @@ const PublicationCard = ({ item, onUpdate }) => {
 
   // Botones reutilizables
   const ActionButtons = () => (
-    <div className="flex items-center gap-3">
+    <div className="flex items-center gap-1.5 md:gap-3">
       <button
         onClick={handleEditClick}
-        className="flex items-center gap-1.5 text-sm font-bold text-[#005A9C] hover:text-blue-700 dark:text-blue-400 transition-colors px-2 py-1 rounded hover:bg-blue-50 dark:hover:bg-blue-900/10"
+        className="flex items-center gap-1 md:gap-1.5 text-xs md:text-sm font-bold text-[#005A9C] hover:text-blue-700 dark:text-blue-400 transition-colors px-1.5 md:px-2 py-0.5 md:py-1 rounded hover:bg-blue-50 dark:hover:bg-blue-900/10"
       >
-        <Pencil size={14} /> Editar
+        <Pencil className="w-3 h-3 md:w-3.5 md:h-3.5" /> <span className="hidden sm:inline">Editar</span>
       </button>
-      <div className="w-px h-4 bg-gray-300 dark:bg-white/10"></div>
+      <div className="w-px h-3 md:h-4 bg-gray-300 dark:bg-white/10"></div>
       <button
         onClick={handleDeleteClick}
-        className="flex items-center gap-1.5 text-sm font-bold text-red-600 hover:text-red-800 dark:text-red-400 transition-colors px-2 py-1 rounded hover:bg-red-50 dark:hover:bg-red-900/10"
+        className="flex items-center gap-1 md:gap-1.5 text-xs md:text-sm font-bold text-red-600 hover:text-red-800 dark:text-red-400 transition-colors px-1.5 md:px-2 py-0.5 md:py-1 rounded hover:bg-red-50 dark:hover:bg-red-900/10"
       >
-        <Trash2 size={14} /> Eliminar
+        <Trash2 className="w-3 h-3 md:w-3.5 md:h-3.5" /> <span className="hidden sm:inline">Eliminar</span>
       </button>
     </div>
   )
@@ -196,34 +196,34 @@ const PublicationCard = ({ item, onUpdate }) => {
       >
         {/* --- HEADER (Resumen) --- */}
         <div
-          className="p-5 flex flex-col gap-4 cursor-pointer relative"
+          className="p-3 md:p-5 flex flex-col gap-2 md:gap-4 cursor-pointer relative"
           onClick={toggleExpand}
         >
           {/* Badge Superior */}
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between items-center gap-2">
             <span
-              className={`px-3 py-1 rounded-md text-xs font-bold uppercase tracking-wider border ${typeBadgeClass}`}
+              className={`px-1.5 md:px-3 py-0.5 md:py-1 rounded-md text-[8px] md:text-xs font-bold uppercase tracking-wider border ${typeBadgeClass}`}
             >
               {isOffer ? "Oferta de Transporte" : "Solicitud de Carga"}
             </span>
             <span
-              className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide ${statusColor}`}
+              className={`px-1.5 md:px-3 py-0.5 md:py-1 rounded-full text-[8px] md:text-xs font-bold uppercase tracking-wide ${statusColor}`}
             >
               {statusLabel}
             </span>
           </div>
 
-          <div className="flex items-center gap-5">
+          <div className="flex items-center gap-2 md:gap-5">
             {/* Icono */}
-            <div className={`h-12 w-12 rounded-full bg-gray-100 dark:bg-white/5 flex items-center justify-center shrink-0 ${iconColorClass} mt-1`}>
-              <Icon size={24} strokeWidth={1.5} />
+            <div className={`h-8 w-8 md:h-12 md:w-12 rounded-full bg-gray-100 dark:bg-white/5 flex items-center justify-center shrink-0 ${iconColorClass} mt-1`}>
+              <Icon className="w-4 h-4 md:w-6 md:h-6" strokeWidth={1.5} />
             </div>
 
             {/* Info Principal */}
             <div className="grow min-w-0">
               <div>
                 {isEditing ? (
-                  <div className="flex flex-col sm:flex-row gap-2 mb-3 w-full animate-fadeIn">
+                  <div className="flex flex-col sm:flex-row gap-2 mb-2 md:mb-3 w-full animate-fadeIn">
                     <input
                       {...register("origin")}
                       className={inputClass}
@@ -241,25 +241,25 @@ const PublicationCard = ({ item, onUpdate }) => {
                     />
                   </div>
                 ) : (
-                  <h3 className="text-xl font-bold text-gray-900 dark:text-white truncate leading-tight mb-3">
-                    {item.origin} <span className="text-gray-400 mx-1">➝</span>{" "}
+                  <h3 className="text-sm md:text-xl font-bold text-gray-900 dark:text-white truncate leading-tight mb-1.5 md:mb-3">
+                    {item.origin} <span className="text-gray-400 mx-0.5 md:mx-1">➝</span>{" "}
                     {item.destination}
                   </h3>
                 )}
 
                 {/* Detalles Verticales + Botones alineados */}
-                <div className="flex flex-wrap items-end justify-between gap-4">
-                  <div className="flex flex-col gap-1.5 text-sm text-gray-600 dark:text-gray-300">
-                    <p className="flex items-center gap-2">
-                      <span className="font-semibold w-24 text-gray-500 dark:text-gray-400">
+                <div className="flex flex-wrap items-end justify-between gap-2 md:gap-4">
+                  <div className="flex flex-col gap-1 md:gap-1.5 text-xs md:text-sm text-gray-600 dark:text-gray-300">
+                    <p className="flex items-center gap-1 md:gap-2">
+                      <span className="font-semibold w-16 md:w-24 text-gray-500 dark:text-gray-400">
                         Fecha:
                       </span>
                       {new Date(
                         item.available_date || item.ready_date
                       ).toLocaleDateString()}
                     </p>
-                    <p className="flex items-center gap-2">
-                      <span className="font-semibold w-24 text-gray-500 dark:text-gray-400">
+                    <p className="flex items-center gap-1 md:gap-2">
+                      <span className="font-semibold w-16 md:w-24 text-gray-500 dark:text-gray-400">
                         Tipo de carga:
                       </span>
                       <span className="capitalize">{item.cargo_type}</span>
@@ -276,9 +276,9 @@ const PublicationCard = ({ item, onUpdate }) => {
             <div className="self-center">
               <button className="p-1 text-gray-400 hover:text-gray-600 dark:hover:text-white transition-colors">
                 {isExpanded ? (
-                  <ChevronUp size={20} />
+                  <ChevronUp className="w-4 h-4 md:w-5 md:h-5" />
                 ) : (
-                  <ChevronDown size={20} />
+                  <ChevronDown className="w-4 h-4 md:w-5 md:h-5" />
                 )}
               </button>
             </div>
@@ -287,8 +287,8 @@ const PublicationCard = ({ item, onUpdate }) => {
 
         {/* --- BODY EXPANDIBLE --- */}
         {isExpanded && (
-          <div className="px-6 pb-6 pt-0 animate-fadeIn">
-            <div className="border-t border-gray-200 dark:border-neutral-800 pt-6 mt-2 grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="px-3 md:px-6 pb-3 md:pb-6 pt-0 animate-fadeIn">
+            <div className="border-t border-gray-200 dark:border-neutral-800 pt-3 md:pt-6 mt-2 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
               {/* COL 1: DETALLES TÉCNICOS */}
               <div className="space-y-5">
                 <h4 className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider flex items-center gap-2">

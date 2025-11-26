@@ -144,7 +144,7 @@ const MyPublicationsPage = () => {
         </div>
 
         {/* LISTADO DE TARJETAS */}
-        <div className="space-y-4">
+        <div className="space-y-3 md:space-y-4">
           {displayedPublications.length === 0 ? (
             <div className="text-center py-20">
               <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-100 dark:bg-white/5 mb-4">

@@ -1,39 +1,26 @@
 import React from 'react'
-import { Loader2, AlertTriangle } from 'lucide-react'
+import { Loader2, AlertTriangle, Search } from 'lucide-react'
 import MarketCard from '../../components/market/MarketCard'
 import ListFooterMessage from '../../components/common/ListFooterMessage'
 
-const MercadoList = ({ data, loading, error, refetchData }) => {
-  // 1. Estado de Carga
+const MercadoList = ({ data, loading, error, refetchData, onViewDetail }) => {
+  
+  // Estados de Carga y Error (Igual que antes)
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-64 
-        bg-gray-100 dark:bg-neutral-900 
-        text-gray-900 dark:text-white 
-        rounded-xl border border-gray-300 dark:border-neutral-800">
-        <Loader2 className="animate-spin text-amber-500 mr-3" size={32} />
-        <span className="text-lg font-medium">Sincronizando Mercado...</span>
+      <div className="flex justify-center items-center h-64 bg-white dark:bg-[#111] rounded-xl border border-gray-200 dark:border-white/10">
+        <Loader2 className="animate-spin text-primary mr-3" size={32} />
+        <span className="text-lg font-medium text-gray-600 dark:text-gray-300">Cargando publicaciones...</span>
       </div>
     )
   }
 
   if (error) {
     return (
-      <div className="p-6 rounded-xl flex flex-col items-center justify-center h-64 
-        bg-red-50 dark:bg-red-900/20 
-        border-l-4 border-red-500 dark:border-red-700 
-        text-red-900 dark:text-red-200">
-        <div className="flex items-center mb-2">
-          <AlertTriangle className="mr-3 text-red-500 dark:text-red-400" size={32} />
-          <p className="font-bold text-xl">Error de Conexión</p>
-        </div>
-        <p className="text-base mb-4">{error.message || 'Ocurrió un error al obtener los datos de la API.'}</p>
-        <button
-          onClick={refetchData}
-          className="px-6 py-2 
-            bg-red-600 hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-600 
-            text-white rounded-lg font-bold transition"
-        >
+      <div className="p-6 rounded-xl flex flex-col items-center justify-center h-64 bg-red-50 dark:bg-red-900/10 border border-red-200 dark:border-red-900/30">
+        <AlertTriangle className="mb-2 text-red-500" size={32} />
+        <p className="text-base text-red-700 dark:text-red-300 mb-4">{error.message || 'Error al cargar datos.'}</p>
+        <button onClick={refetchData} className="px-4 py-2 bg-red-600 text-white rounded-lg text-sm font-bold hover:bg-red-700 transition-colors">
           Reintentar
         </button>
       </div>
@@ -41,20 +28,14 @@ const MercadoList = ({ data, loading, error, refetchData }) => {
   }
 
   if (!data || data.length === 0) {
-    return (
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        <div className="sm:col-span-2 lg:col-span-3 xl:col-span-4">
-          <ListFooterMessage refetchData={refetchData} />
-        </div>
-      </div>
-    )
+    return <ListFooterMessage refetchData={refetchData} />
   }
 
+  // LAYOUT DE GRID AJUSTADO AL DISEÑO (1 col móvil, 2 col desktop grande)
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 pb-10">
+    <div className="grid grid-cols-1 xl:grid-cols-2 gap-3 md:gap-6 pb-10">
       {data.map((item) => (
-        // La MarketCard (ahora un componente separado) recibe el ítem
-        <MarketCard key={item.id} item={item} /> 
+        <MarketCard key={item.id} item={item} onViewDetail={onViewDetail} />
       ))}
     </div>
   )
