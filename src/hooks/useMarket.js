@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { getOffers, getRequests } from "../services/market.service"
 import { useAuth } from "../context/AuthContext"
 
@@ -8,15 +8,16 @@ import { useAuth } from "../context/AuthContext"
  * @returns {Object} { data, loading, error, refetchData }
  */
 export const useMarket = () => {
-  const { user } = useAuth()
+  const { user, loading: authLoading } = useAuth()
 
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async (filters = {}) => {
+    // Si no hay usuario (invitado o no cargado), salimos.
     if (!user) {
-      setLoading(false)
+      setData([])
       return
     }
 
@@ -26,18 +27,26 @@ export const useMarket = () => {
     try {
       let result = []
       
+      // Limpieza de filtros: Eliminar claves con valores vacíos/undefined
+      const activeFilters = Object.fromEntries(
+        Object.entries(filters).filter(([_, v]) => v != null && v !== '')
+      )
+
+      // Lógica de fetching por rol con filtros
       if (user.rol === "transportista") {
-        const response = await getRequests()
+        const response = await getRequests(activeFilters)
         result = response.data.requests || [] 
       } 
       else if (user.rol === "empresa") {
-        const response = await getOffers()
+        const response = await getOffers(activeFilters)
         result = response.data.offers || []
       }
       else if (user.rol === "operador_dual") {
+        // Para dual, enviamos los filtros a ambos endpoints.
+        // El backend se encarga de retornar vacío si el filtro no coincide con nada en esa tabla.
         const [offersResponse, requestsResponse] = await Promise.all([
-          getOffers(), 
-          getRequests()
+          getOffers(activeFilters), 
+          getRequests(activeFilters)
         ])
         
         const offers = offersResponse.data.offers || []
@@ -49,20 +58,19 @@ export const useMarket = () => {
       setData(result || [])
     } catch (err) {
       console.error("Error fetching market data:", err)
-      setError("Could not load market data")
+      setError("No se pudieron cargar los datos del mercado.")
     } finally {
       setLoading(false)
     }
+  }, [user])
+
+  if (authLoading) {
+    return { data: [], loading: true, error: null, refetchData: fetchData }
   }
 
   useEffect(() => {
-    // Aseguramos que solo hacemos fetch si el usuario está definido (no null)
-    if (user) {
-      fetchData()
-    } else {
-      setLoading(false) // Si el user es null, hemos terminado de cargar sin datos
-    }
-  }, [user]) // El hook se re-ejecuta cada vez que el objeto 'user' cambia
+    fetchData()
+  }, [fetchData])
 
   return {
     data,

@@ -2,10 +2,11 @@ import apiClient from "./apiClient"
 
 /**
  * Gets all published transport offers
+ * @param {Object} filters - Optional filters { origin, destination, cargoType, vehicleType, availableDate }
  * @returns {Promise<Array>} An array of offer objects
  */
-export const getOffers = async () => {
-  return apiClient.get("/offers")
+export const getOffers = async (filters = {}) => {
+  return apiClient.get("/offers", { params: filters })
 }
 
 /**
@@ -19,10 +20,11 @@ export const createOffer = async (offerData) => {
 
 /**
  * Gets all published load requests
+ * @param {Object} filters - Optional filters { origin, destination, cargoType, vehicleType, availableDate }
  * @returns {Promise<Array>} An array of request objects
  */
-export const getRequests = async () => {
-  return apiClient.get("/requests")
+export const getRequests = async (filters = {}) => {
+  return apiClient.get("/requests", { params: filters })
 }
 
 /**
