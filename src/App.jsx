@@ -1,33 +1,36 @@
-import { Outlet, useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
-import Sidebar from "./components/layout/Sidebar";
-import Navbar from "./components/layout/Navbar"; // Asegúrate de que este archivo exista
-import { useAuth } from "./context/AuthContext";
+import { Outlet, useLocation } from "react-router-dom"
+import { useEffect, useState } from "react"
+import Sidebar from "./components/layout/Sidebar"
+import Navbar from "./components/layout/Navbar" // Asegúrate de que este archivo exista
+import { useAuth } from "./context/AuthContext"
 
 function App() {
-  const { isAuthenticated } = useAuth();
-  const location = useLocation();
+  const { isAuthenticated } = useAuth()
+  const location = useLocation()
+
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false)
 
   // Lógica de tema (Dark/Light Mode)
-  const [theme, setTheme] = useState(() => {
+  const [theme] = useState(() => {
     if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-      return "dark";
+      return "dark"
     }
-    return "light";
-  });
+    return "light"
+  })
 
   useEffect(() => {
     if (theme === "dark") {
-      document.querySelector("html").classList.add("dark");
+      document.querySelector("html").classList.add("dark")
     } else {
-      document.querySelector("html").classList.remove("dark");
+      document.querySelector("html").classList.remove("dark")
     }
-  }, [theme]);
+  }, [theme])
 
   // --- LÓGICA DE NAVEGACIÓN ---
-  const showSidebar = isAuthenticated;
-  // Solo mostrar Navbar si NO está logueado Y está en la raíz (Home)
-  const showNavbar = !isAuthenticated && location.pathname === "/";
+  const showSidebar = isAuthenticated
+  const showNavbar = !isAuthenticated && location.pathname === "/"
+
+  const mainContentMarginClass = isSidebarCollapsed ? "md:ml-20" : "md:ml-64"
 
   return (
     // CONTENEDOR PRINCIPAL
@@ -39,16 +42,21 @@ function App() {
       `}
     >
       {/* 1. NAVEGACIÓN CONDICIONAL */}
-      {showSidebar && <Sidebar />}
+      {showSidebar && (
+        <Sidebar 
+          isCollapsed={isSidebarCollapsed} // Pasar estado actual
+          setIsCollapsed={setIsSidebarCollapsed} // Pasar función de toggle
+        />
+      )}
       {showNavbar && <Navbar />}
 
       {/* 2. CONTENIDO PRINCIPAL (MAIN) */}
       <main
         className={`
           flex-1 relative flex flex-col
-          transition-all duration-300
+          transition-all duration-300 ease-in-out
           /* Si hay sidebar (auth), empujamos el contenido a la derecha en desktop. Si no, ancho completo */
-          ${showSidebar ? "md:ml-64" : "w-full"}
+          ${showSidebar ? mainContentMarginClass : "w-full"}
         `}
       >
         {/*
@@ -65,7 +73,7 @@ function App() {
         </div>
       </main>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
