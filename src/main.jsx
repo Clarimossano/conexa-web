@@ -4,6 +4,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import App from "./App.jsx"
 import "./index.css"
 import { AuthProvider } from "./context/AuthContext.jsx"
+import { ChatProvider } from "./context/ChatContext.jsx"
 
 import HomePage from "./pages/HomePage.jsx"
 import RegisterPage from "./pages/RegisterPage.jsx"
@@ -11,7 +12,7 @@ import LoginPage from "./pages/LoginPage.jsx"
 import CommunityPage from "./pages/community/CommunityPage.jsx"
 import SettingsPage from "./pages/SettingsPage.jsx"
 
-import MessagesPage from "./pages/MessagesPage.jsx"
+import InboxPage from "./pages/messages/InboxPage.jsx"
 
 import ProtectedRoute from "./components/auth/ProtectedRoute.jsx"
 import ProfilePage from "./pages/ProfilePage.jsx"
@@ -37,7 +38,7 @@ const router = createBrowserRouter([
         children: [
           { path: "/marketplace", element: <DashboardPage /> },
           { path: "/profile", element: <ProfilePage /> },
-          { path: "/messages", element: <MessagesPage /> },
+          { path: "/messages", element: <InboxPage /> },
           { path: "/marketplace/create", element: <CreatePublicationPage /> },
           { path: "/marketplace/my-publications", element: <MyPublicationsPage /> },
           { path: "/settings", element: <SettingsPage /> },
@@ -50,7 +51,10 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <AuthProvider>
-      <RouterProvider router={router} />
+      {/* 2. AGREGAR CHAT PROVIDER AQUÍ DENTRO */}
+      <ChatProvider>
+        <RouterProvider router={router} />
+      </ChatProvider>
     </AuthProvider>
   </React.StrictMode>
 )
