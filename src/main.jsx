@@ -19,9 +19,6 @@ import ProfilePage from "./pages/ProfilePage.jsx"
 import DashboardPage from "./pages/market/DashboardPage.jsx"
 import MyPublicationsPage from "./pages/market/MyPublicationsPage.jsx"
 import CreatePublicationPage from "./pages/market/CreatePublicationPage.jsx"
-
-import CommunityHomeTest from "./CommunityHomeTest.jsx"
-import ThreadDetailTest from "./ThreadDetailTest.jsx"
 import PostDetailPage from "./pages/community/PostDetailPage.jsx"
 
 const router = createBrowserRouter([
@@ -33,8 +30,6 @@ const router = createBrowserRouter([
       { path: "/register", element: <RegisterPage /> },
       { path: "/login", element: <LoginPage /> },
       { path: "/community", element: <CommunityPage /> },
-      { path: "/communitytest", element: <CommunityHomeTest/>},
-      { path: "/communitytest/threaddetailtest", element: <ThreadDetailTest/>},
       { path: "/community/post/:id", element: <PostDetailPage/>},
       {
         element: <ProtectedRoute />,
